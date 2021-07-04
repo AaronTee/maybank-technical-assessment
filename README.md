@@ -30,4 +30,9 @@ Google Map API service only can be accessed by using window.google library, not 
 
 ### Google Map API KEY
 
-Currently the API_KEY was using my own created api key, which has quota limit set by me as it's on-demand basis charged, to whom that need more quota for evaluation purposes please contact me personally.
+Please replace your own google map API_KEY to src/configs/index.ts file. Also note that your API_KEY must have these two API enabled in order the application works properly.
+
+- Maps Javascript API
+- Places API
+
+
