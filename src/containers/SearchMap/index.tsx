@@ -7,6 +7,7 @@ import { RootState } from '@store/redux';
 import { HistoryPlaceResult, InterestPlaceResult } from './types';
 import { onMapPlacedSearched, populateInterestPlaces } from './actions';
 import { PlaceResult } from '@components/Map/types';
+import config from '@config';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,7 +73,7 @@ const SearchMap: FunctionComponent = () => {
       <Typography variant="h2" gutterBottom>Maps</Typography>
       <Box className={classes.mapSection} display="flex" justifyContent="space-between">
         <Box width="48%">
-          <GoogleMap overridePlace={overridePlace} searchPlaceHolder="Search Address" height="75vh" onPlaceChanged={onPlaceChanged} />
+          <GoogleMap apiKey={config.googleMapApiKey} overridePlace={overridePlace} searchPlaceHolder="Search Address" height="75vh" onPlaceChanged={onPlaceChanged} />
         </Box>
         <Box width="48%">
           <div className={classes.historySection}>

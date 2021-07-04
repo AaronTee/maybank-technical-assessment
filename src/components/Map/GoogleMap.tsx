@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, FunctionComponent } from 'react';
+import PropTypes from 'prop-types';
 import { Paper, IconButton, InputBase, List, ListItem, ListItemText, makeStyles, CircularProgress } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import useScript from '@hooks/useScript';
@@ -57,13 +58,14 @@ const useStyles = makeStyles<any, { height: string }>(() => ({
   }
 }));
 
-const GoogleMap: FunctionComponent<GoogleMapProps> = ({ 
+const GoogleMap: FunctionComponent<GoogleMapProps> = ({
+  apiKey,
   height, 
   overridePlace, 
   searchPlaceHolder = '',
   onPlaceChanged = () => {}, 
 }) => {
-  const [ scriptHasLoaded ] = useScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyB-kSXnXwX1ewktpwc1I90qVcHuiBRYvSM&libraries=places', 'google');
+  const [ scriptHasLoaded ] = useScript(`https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`, 'google');
   const classes = useStyles({
     height
   });
@@ -237,6 +239,11 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
     getPlaceDetailAndMarkOnMap(selectedPlace.place_id);
   }, [overridePlace])
 
+  useEffect(() => {
+    if (!apiKey)
+      alert('Make sure you have your google API KEY set in src/configs file.');
+  }, [apiKey])
+
   return (
     <div>
       <div className={classes.map}>
@@ -289,4 +296,9 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
 }
 
 GoogleMap.displayName = 'Google Map Component'
+GoogleMap.propTypes = {
+  apiKey: PropTypes.string.isRequired
+};
+
+
 export { GoogleMap }

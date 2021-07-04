@@ -1,4 +1,5 @@
 export interface GoogleMapProps {
+  apiKey: string;
   height: string;
   searchPlaceHolder?: string;
   overridePlace?: BasePlaceResult;
