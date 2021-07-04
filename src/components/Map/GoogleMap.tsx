@@ -1,37 +1,37 @@
-import React, { useState, useEffect, useRef, FunctionComponent, useCallback } from "react";
-import { Paper, IconButton, InputBase, List, ListItem, ListItemText, debounce, makeStyles, Theme, CircularProgress } from "@material-ui/core";
+import React, { useState, useEffect, useRef, useCallback, FunctionComponent } from 'react';
+import { Paper, IconButton, InputBase, List, ListItem, ListItemText, makeStyles, CircularProgress } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import useScript from "@hooks/useScript";
-import { GoogleMapProps, PlaceResult } from "./types";
-import useOnClickedOutside from "@hooks/useOnClickOutside";
+import useScript from '@hooks/useScript';
+import { GoogleMapProps, PlaceResult } from './types';
+import useOnClickedOutside from '@hooks/useOnClickOutside';
 
-const useStyles = makeStyles<any, {height: string}>(() => ({
+const useStyles = makeStyles<any, { height: string }>(() => ({
   map: {
     height: props => props.height,
-    width: "100%",
-    borderRadius: "12px",
-    boxShadow: "0 0 8px 2px rgba(22, 22, 22, 0.1)",
+    width: '100%',
+    borderRadius: '12px',
+    boxShadow: '0 0 8px 2px rgba(22, 22, 22, 0.1)',
     '& .gmnoprint': {
-      display: "none",
+      display: 'none',
     },
   },
   mapOverlay: {
-    position: "fixed",
+    position: 'fixed',
   },
   controlArea: {
-    width: "90%",
-    marginTop: "14px",
-    borderRadius: "12px",
-    boxSizing: "border-box",
-    outline: "none",
-    boxShadow: "0 0 12px 4px rgba(22, 22, 22, 0.2)",
-    backgroundColor: "#eee",
-    fontFamily: "Roboto"
+    width: '90%',
+    marginTop: '14px',
+    borderRadius: '12px',
+    boxSizing: 'border-box',
+    outline: 'none',
+    boxShadow: '0 0 12px 4px rgba(22, 22, 22, 0.2)',
+    backgroundColor: '#eee',
+    fontFamily: 'Roboto'
   },
   querySection: {
     display: 'flex',
     alignItems: 'center',
-    width: "100%",
+    width: '100%',
   },
   queryInput: {
     flex: 1,
@@ -41,29 +41,29 @@ const useStyles = makeStyles<any, {height: string}>(() => ({
     padding: 10,
   },
   resultList: {
-    backgroundColor: "#eee",
+    backgroundColor: '#eee',
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
   },
   resultListItem: {
-    borderBottom: "1px solid lightgrey",
+    borderBottom: '1px solid lightgrey',
     '&:last-child': {
       borderBottom: 0
     }
   },
   loadingIcon: {
-    width: "24px !important",
-    height: "24px !important"
+    width: '24px !important',
+    height: '24px !important'
   }
 }));
 
 const GoogleMap: FunctionComponent<GoogleMapProps> = ({ 
   height, 
   overridePlace, 
-  searchPlaceHolder = "",
+  searchPlaceHolder = '',
   onPlaceChanged = () => {}, 
 }) => {
-  const [ scriptHasLoaded ] = useScript("https://maps.googleapis.com/maps/api/js?key=AIzaSyB-kSXnXwX1ewktpwc1I90qVcHuiBRYvSM&libraries=places", 'google');
+  const [ scriptHasLoaded ] = useScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyB-kSXnXwX1ewktpwc1I90qVcHuiBRYvSM&libraries=places', 'google');
   const classes = useStyles({
     height
   });
@@ -76,19 +76,19 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
   const queryInputRef = useRef<HTMLInputElement>();
   const searchControlRef = useRef<HTMLDivElement>();
   
-  const [ hasMapLoaded, setHasMapLoaded ] = useState(false);
-  const [ searchQuery, setSearchQuery ] = useState("");
+  const [, setHasMapLoaded ] = useState(false);
+  const [ searchQuery, setSearchQuery ] = useState('');
   const [ searchResults, setSearchResults ] = useState<PlaceResult[]>([]);
   const [ showSearchResults, setShowSearchResults ] = useState(false);
-  const [ searchResultSelectedIndex, setSearchResultSelectedIndex ] = useState<number>(undefined);
-  const [ placeName, setPlaceName ] = useState("");
-  const [ placeAddress, setPlaceAddress ] = useState("");
+  const [, setSearchResultSelectedIndex ] = useState<number>(undefined);
+  const [ placeName ] = useState('');
+  const [ placeAddress ] = useState('');
   const [ isPlaceDetailLoading, setIsPlaceDetailLoading ] = useState(false);
 
   const initMap = () => {
     /* Init Google Map */
     const googlemaps = window.google.maps;
-    const map = new googlemaps.Map(document.getElementById("map"), {
+    const map = new googlemaps.Map(document.getElementById('map'), {
       // West Malaysia center bu default
       center: { lat: 4.5312679, lng: 102.3000685},
       disableDefaultUI: true,
@@ -109,12 +109,12 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
     });
 
     /* Embedding our component into google map view */
-    const card = document.getElementById("search-control");
+    const card = document.getElementById('search-control');
     map.controls[googlemaps.ControlPosition.TOP_CENTER].push(card);
 
     /* Make info window for current search location */
     const infowindow = new googlemaps.InfoWindow();
-    const infowindowContent = document.getElementById("infowindow-content");
+    const infowindowContent = document.getElementById('infowindow-content');
     infowindow.setContent(infowindowContent);
 
     /* Make marker to pinpoint current location */
@@ -149,7 +149,7 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
         map = mapRef.current;
 
         if (!geo || !geo.location) {
-          window.alert("No place details available");
+          window.alert('No place details available');
           return;
         }
 
@@ -164,7 +164,7 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
         marker.setPosition(geo.location);
         marker.setVisible(true);
       } else {
-        alert("Failed to get place detail.");
+        alert('Failed to get place detail.');
       }
     });
   }
@@ -191,7 +191,7 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
 
   const onPredictionListItemSelected
   : (predictionIndex: number) => React.MouseEventHandler<HTMLDivElement> 
-  = (predictionIndex) => (_) => {
+  = (predictionIndex) => () => {
     setSearchResultSelectedIndex(predictionIndex);
 
     const selectedPlace = searchResults[predictionIndex];
@@ -225,7 +225,7 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
       
       // Init Services
       autoCompleteServiceRef.current = new window.google.maps.places.AutocompleteService();
-      placeServiceRef.current = new window.google.maps.places.PlacesService(document.getElementById("placeAttrId") as HTMLDivElement);
+      placeServiceRef.current = new window.google.maps.places.PlacesService(document.getElementById('placeAttrId') as HTMLDivElement);
     }
   }, [scriptHasLoaded])
 
@@ -241,7 +241,7 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
     <div>
       <div className={classes.map}>
         <div className={classes.mapOverlay}>
-          <div ref={searchControlRef} className={classes.controlArea} id="search-control" style={{ display: "block" }}>
+          <div ref={searchControlRef} className={classes.controlArea} id="search-control" style={{ display: 'block' }}>
             <Paper component="form" className={classes.querySection} onSubmit={onQueryInputSubmitted}>
               <IconButton disabled type="submit" className={classes.searchIconButton} aria-label="search">
               { 
@@ -288,5 +288,5 @@ const GoogleMap: FunctionComponent<GoogleMapProps> = ({
   )
 }
 
-GoogleMap.displayName = "Google Map Component"
+GoogleMap.displayName = 'Google Map Component'
 export { GoogleMap }

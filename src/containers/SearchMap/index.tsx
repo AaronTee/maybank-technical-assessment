@@ -4,37 +4,37 @@ import { Box, List, ListItem, ListItemText, makeStyles, Typography } from '@mate
 import Skeleton from '@material-ui/lab/Skeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/redux';
-import { PlaceResult } from '@components/Map/types';
 import { HistoryPlaceResult, InterestPlaceResult } from './types';
 import { onMapPlacedSearched, populateInterestPlaces } from './actions';
+import { PlaceResult } from '@components/Map/types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "2rem"
+    margin: '2rem'
   },
   mapSection: {},
   historySection: {
-    height: "35vh",
+    height: '35vh',
   },
   historyList: {
-    height: "calc(100% - 40px)",
-    overflowY: "auto",
+    height: 'calc(100% - 50px)',
+    overflowY: 'auto',
   },
   interestPlaceSection: {
-    height: "40vh",
+    height: '40vh',
   },
   interestPlaceList: {
-    height: "calc(100% - 40px)",
-    overflowY: "auto",
+    height: 'calc(100% - 50px)',
+    overflowY: 'auto',
   },
   listItem: {
-    "&:nth-child(odd)": {
-      backgroundColor: "#ddd"
+    '&:nth-child(odd)': {
+      backgroundColor: '#ddd'
     },
-    "&:nth-child(even)": {
-      backgroundColor: "#eee"
+    '&:nth-child(even)': {
+      backgroundColor: '#eee'
     },
-    "&:hover": {
+    '&:hover': {
       backgroundColor: theme.palette.action.hover
     }
   }
@@ -46,7 +46,6 @@ const SearchMap: FunctionComponent = () => {
 
   const interestPlaces = useSelector<RootState, InterestPlaceResult[]>((state) => state.searchMapReducer.interestPlaces);
   const isInterestPlaceLoading = useSelector<RootState, boolean>((state) => state.searchMapReducer.isInterestPlacesLoading);
-  const interestPlaceLoadError = useSelector<RootState, string>((state) => state.searchMapReducer.interestPlacesLoadError);
   const searchHistoryPlaces = useSelector<RootState, HistoryPlaceResult[]>((state) => state.searchMapReducer.searchHistoryPlaces);
   
   const [overridePlace, setOverridePlace] = useState<InterestPlaceResult | HistoryPlaceResult>(undefined);
@@ -98,7 +97,7 @@ const SearchMap: FunctionComponent = () => {
               <div>
                 {
                   new Array(4).fill(0).map((s, i) => ((
-                    <Skeleton style={{ backgroundColor: i % 2 ? "#eee" : "aaa" }} variant="rect" width={"100%"} height={50}/>
+                    <Skeleton key={i} style={{ backgroundColor: i % 2 ? '#eee' : 'aaa' }} variant="rect" width={'100%'} height={50}/>
                   )))
                 }
               </div>
@@ -120,5 +119,5 @@ const SearchMap: FunctionComponent = () => {
   )
 }
 
-SearchMap.displayName = "Search Map";
+SearchMap.displayName = 'Search Map';
 export default SearchMap;

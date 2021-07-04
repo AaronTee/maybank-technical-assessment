@@ -1,5 +1,5 @@
 /* Copy from https://usehooks.com/useOnClickOutside */
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 function useOnClickOutside(ref, handler) {
   useEffect(
@@ -11,11 +11,11 @@ function useOnClickOutside(ref, handler) {
         }
         handler(event);
       };
-      document.addEventListener("mousedown", listener);
-      document.addEventListener("touchstart", listener);
+      document.addEventListener('mousedown', listener);
+      document.addEventListener('touchstart', listener);
       return () => {
-        document.removeEventListener("mousedown", listener);
-        document.removeEventListener("touchstart", listener);
+        document.removeEventListener('mousedown', listener);
+        document.removeEventListener('touchstart', listener);
       };
     },
     // Add ref and handler to effect dependencies

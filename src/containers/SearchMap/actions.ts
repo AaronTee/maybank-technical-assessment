@@ -1,9 +1,8 @@
-import { RootState } from "@store/redux";
-import { ThunkDispatch } from "redux-thunk";
-import { HistoryPlaceResult, SearchMapActions } from "./types";
-import GooglePlacesMockData from "~/mocks/google-places";
-import { delay } from "~/utils/asyncHelper";
-import { PlaceResult } from "@components/Map/types";
+import { RootState } from '@store/redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { HistoryPlaceResult, SearchMapActions } from './types';
+import GooglePlacesMockData from '~/mocks/google-places';
+import { delay } from '~/utils/asyncHelper';
 
 export const onMapPlacedSearched = 
 (result: HistoryPlaceResult) : SearchMapActions => ({type: 'ON_MAP_PLACE_SEARCHED', payload: result})

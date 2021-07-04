@@ -1,16 +1,16 @@
-import { SearchMapActions, SearchMapState } from "./types";
+import { SearchMapActions, SearchMapState } from './types';
 
 const initialState: SearchMapState = {
   searchHistoryPlaces: [],
   interestPlaces: [],
   isInterestPlacesLoading: false,
-  interestPlacesLoadError: "",
+  interestPlacesLoadError: '',
 }
 
 export default (state = initialState, action: SearchMapActions) : SearchMapState => {
   switch (action.type) {
 
-  case 'ON_MAP_PLACE_SEARCHED':
+  case 'ON_MAP_PLACE_SEARCHED': {
     const hist = [action.payload, ...state.searchHistoryPlaces];
     if (hist.length > 5)
       hist.length = 5;
@@ -18,6 +18,7 @@ export default (state = initialState, action: SearchMapActions) : SearchMapState
       ...state,
       searchHistoryPlaces: hist
     }
+  }
 
   case 'POPULATE_INTEREST_PLACE_INPROGRESS':
     return { 
@@ -40,7 +41,7 @@ export default (state = initialState, action: SearchMapActions) : SearchMapState
   case 'POPULATE_INTEREST_PLACE_ERROR':
     return {
       ...state,
-      interestPlacesLoadError: ""
+      interestPlacesLoadError: ''
     }
 
   default:
