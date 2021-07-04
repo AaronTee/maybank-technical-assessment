@@ -22,11 +22,11 @@ Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
 ### Input Validation
 
-Please note that there is a validation of minimum 3 characters for address input before the autocomplete API get sent.
+Please note that there is a validation of minimum 3 characters for address input before the autocomplete request get sent.
 
 ### Redux Thunk
 
-Google Map API service only can be accessed by using window.google library, not explicitly through API calling therefore react thunk in this project was only used for fetching mock data returned from a promise.
+Google Map API service only can be accessed by using window.google library, not explicitly through API calling therefore react thunk in this project was only used for fetching mock data returned from a fake promise.
 
 ### Google Map API KEY
 
